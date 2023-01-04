@@ -3,6 +3,7 @@ from .local_settings import LOCAL_DATABASES
 
 LOCAL_APPS = [
     'apps.users.apps.UsersConfig',
+    'apps.password_store.apps.PasswordStoreConfig',
 ]
 
 THIRD_PARTY_APPS = [
