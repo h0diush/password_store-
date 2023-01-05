@@ -32,12 +32,7 @@ class PasswordsModel(models.Model):
         self.password = hash_password(self.password)
         return super().save(*args, **kwargs)
 
-    # def clean_password(self):
-    #     password = self.password
-    #     if
 
-
-# TODO придумать как это лучше сделать либо CharField либо ManyToManyField
 class PasswordStoreModel(models.Model):
     """ Модель хранилища паролей"""
 

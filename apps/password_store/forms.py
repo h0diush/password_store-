@@ -34,3 +34,7 @@ class PasswordStoreModelForm(forms.ModelForm):
     class Meta:
         model = PasswordStoreModel
         exclude = ('user',)
+
+
+class VerifyPasswordForm(forms.Form):
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
