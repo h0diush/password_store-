@@ -9,11 +9,12 @@ User = get_user_model()
 class PasswordsModel(models.Model):
     """Модель пароля пользователя для доступа к хранилищу паролей"""
 
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         "users.User",
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
-        related_name='passwords'
+        related_name='passwords',
+        unique=True
     )
     password = models.CharField(
         max_length=255,
@@ -31,6 +32,10 @@ class PasswordsModel(models.Model):
         self.password = hash_password(self.password)
         return super().save(*args, **kwargs)
 
+    # def clean_password(self):
+    #     password = self.password
+    #     if
+
 
 # TODO придумать как это лучше сделать либо CharField либо ManyToManyField
 class PasswordStoreModel(models.Model):
@@ -44,6 +49,19 @@ class PasswordStoreModel(models.Model):
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
         related_name='passwords_store'
+    )
+    description = models.TextField(
+        "Описание",
+        null=True,
+        blank=True
+    )
+    username = models.CharField(
+        "Имя пользователя", null=True, blank=True,
+        max_length=75
+    )
+    email = models.CharField(
+        "Электронная почта", null=True, blank=True,
+        max_length=75
     )
 
     class Meta:

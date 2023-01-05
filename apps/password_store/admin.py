@@ -13,7 +13,7 @@ class PasswordModelAdmin(admin.ModelAdmin):
 
 @admin.register(PasswordStoreModel)
 class PasswordStoreModelAdmin(admin.ModelAdmin):
-    list_display = ('user', 'password')
+    list_display = ('user', 'password', 'username', 'email')
     search_fields = ('user',)
     list_filter = ('user',)
     list_display_links = ('user',)
