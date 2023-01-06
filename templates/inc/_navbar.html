@@ -32,12 +32,22 @@
                         <li><a class="dropdown-item"
                                href="{% url 'password_change' %}">Изменить
                             пароль</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"
+                       id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Пароли
+                    </a>
+                    <ul class="dropdown-menu"
+                        aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item"
                                href="{% url 'create_password_for_access_to_store' %}">
                             Пароль для доступа к хранилищу</a></li>
                         <li><a class="dropdown-item"
                                href="{% url 'create_password_in_store' %}">
-                            Добавить пароли</a></li>
+                            Добавить пароль</a></li>
                         <li><a class="dropdown-item"
                                href="{% url 'my_password_list' %}">
                             Мои пароли</a></li>
