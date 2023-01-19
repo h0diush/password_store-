@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, UpdateView
 
 from .decorators import password_required
 from .forms import PasswordModelForm, PasswordStoreModelForm, \
@@ -58,7 +58,7 @@ class CreateMyPasswordView(LoginRequiredMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if not PasswordsModel.objects.filter(
-            user=request.user
+                user=request.user
         ).exists():
             return redirect(reverse('create_password_for_access_to_store'))
         return super().dispatch(request, *args, **kwargs)
@@ -96,6 +96,7 @@ def get_veryfi_password_view(
             user = request.user
             try:
                 model_password = PasswordsModel.objects.get(user=user)
+                context.update({'password': model_password})
             except ObjectDoesNotExist:
                 return redirect(reverse('create_password_for_access_to_store'))
             password = form.cleaned_data['password']
@@ -115,7 +116,7 @@ class ListPasswordView(LoginRequiredMixin, ListView):
     @password_required
     def dispatch(self, request, *args, **kwargs):
         if not PasswordsModel.objects.filter(
-            user=request.user
+                user=request.user
         ).exists:
             return Http404
         return super().dispatch(request, *args, **kwargs)
@@ -149,3 +150,28 @@ class DeletePasswordInAccessStoreView(DeleteViewMixin):
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
+
+
+class UpdatePasswordInAccessStoreView(UpdateView):
+    """Обновление пароля для доступа к хранилищу"""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user != self.get_object().user:
+            return Http404
+        return super().dispatch(request, *args, **kwargs)
+
+    model = PasswordsModel
+    form_class = PasswordModelForm
+    pk_url_kwarg = 'pk'
+    template_name = 'password_store/update_access_for_password_store.html'
+    context_object_name = 'password'
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Изменение пароля для доступа к хранилищу'
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

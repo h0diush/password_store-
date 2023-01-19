@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (CreatePasswordForAccessToPasswordStoreView, index,
                     CreateMyPasswordView, get_veryfi_password_view,
                     ListPasswordView, DeletePasswordInStoreView,
-                    close_access_in_store, DeletePasswordInAccessStoreView)
+                    close_access_in_store, DeletePasswordInAccessStoreView,
+                    UpdatePasswordInAccessStoreView)
 
 urlpatterns = [
     path('', index, name='index'),
@@ -20,6 +21,16 @@ urlpatterns = [
     path('password_aceess/<int:pk>/delete/',
          DeletePasswordInAccessStoreView.as_view(),
          name='delete_password_for_access_to_store'),
+    path('password_aceess/<int:pk>/update/',
+         UpdatePasswordInAccessStoreView.as_view(),
+         name='update_password_for_access_to_store'),
     path('close_access/', close_access_in_store, name='close_access'),
 
 ]
+
+"""
+Суть приложения - это сохранение паролей для доступа к различным сайтам.
+Доступа пользователя к личному хранилищу паролей осуществляется с 
+предварительным вводом пароля
+этот пароль можно создать, удалить и изменить
+"""

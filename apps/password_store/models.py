@@ -1,9 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 
 from .utils import hash_password
-
-User = get_user_model()
 
 
 class PasswordsModel(models.Model):
