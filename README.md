@@ -1,6 +1,6 @@
 # Приложение "Хранилище паролей"
 
-### Доступа пользователя к личному хранилищу паролей осуществляется с предварительным вводом пароля.
+###  Для доступа пользователя к личному хранилищу паролей осуществляется с предварительным вводом пароля.
 ### этот пароль можно создать, удалить и изменить.
 
 ## Используемые технологии:
@@ -33,8 +33,17 @@ EMAIL_HOST_USER=...
 EMAIL_HOST_PASSWORD=...  
  ```
 
-- Сделайте миграции python3 manage.py makemigrations & python3 manage.py migrate
-- Заполните БД тестовыми данными: python3 manage.py loaddata data/data.json
-- Запуск если DEBUG = True python3 manage.py runserver
-- Если DEBUG = False docker-compose up -d --build
-- Для запуска тестов введите в консоли python3 manage.py test -v 2
+- Соберите контейнеры и запустите их ```docker-compose up -d --build```
+- Выполните по очереди команды:
+```
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py collectstatic --no-input 
+```
+
+- Заполните БД тестовыми данными: ```ocker-compose exec web python3 manage.py loaddata data/data.json```
+- Данные для входа http://localhost/admin/ 
+```
+email: admin@api.com
+password: admin
+```
+- Остановить контейенеры ```docker-compose down -v```
